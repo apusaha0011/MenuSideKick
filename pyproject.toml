@@ -1,0 +1,24 @@
+[project]
+name = "menu-sidekick"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "boto3>=1.40.55",
+    "dj-rest-auth>=7.0.1",
+    "django>=5.2.5",
+    "django-allauth[socialaccount]>=65.11.1",
+    "django-cors-headers>=4.9.0",
+    "django-storages>=1.14.6",
+    "djangorestframework>=3.16.1",
+    "djangorestframework-simplejwt>=5.5.1",
+    "drf-yasg>=1.21.10",
+    "gunicorn>=23.0.0",
+    "openai>=2.5.0",
+    "pillow>=12.0.0",
+    "psycopg2-binary>=2.9.11",
+    "python-decouple>=3.8",
+    "sentry-sdk[django]>=2.48.0",
+    "whitenoise>=6.10.0",
+]
