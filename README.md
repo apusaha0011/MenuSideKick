@@ -5,32 +5,6 @@ A comprehensive backend API for Menu Sidekick mobile application, designed to he
 ## 📋 Environment Variables
 
 Required environment variables for deployment:
-```bash
-DEBUG=True
-DJANGO_ALLOWED_HOSTS=http://127.0.0.1:8000,http://localhost:8000,34.229.201.189:8000,34.229.201.189
-CORS_ALLOWED_ORIGINS=http://localhost:8000,http://127.0.0.1:8000,localhost,127.0.0.1,api.menusidekick.app,34.229.201.189
-
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-SECRET_KEY=
-
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
-AWS_STORAGE_BUCKET_NAME=
-AWS_S3_CUSTOM_DOMAIN=menu-sidekick-bucket.s3.amazonaws.com
-AWS_S3_FILE_OVERWRITE=False
-AWS_S3_REGION_NAME=
-
-RDS_DB_NAME=
-RDS_MASTERUSERNAME=postgres
-RDS_MASTERPASSWORD=
-RDS_HOSTNAME=
-RDS_PORT=5432
-
-
-OPENAI_API_KEY=
-```
-
 
 
 ## Features
@@ -354,6 +328,7 @@ The project includes automated CI/CD pipeline with:
 - Docker containerization for consistent deployment environments
 - AWS deployment with ECS and RDS for scalability
 - CI/CD pipeline ensures automated testing and deployment
-- Project follows Django best practices with modular and scalable app design#   M e n u S i d e K i c k  
+- Project follows Django best practices with modular and scalable app design#   M e n u S i d e K i c k 
+ 
  
 # MenuSideKick
