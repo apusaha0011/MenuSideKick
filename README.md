@@ -1,334 +1,278 @@
-# 🍽️ Menu Sidekick Backend API
+# 🍽️ MenuSideKick Backend
 
-A comprehensive backend API for Menu Sidekick mobile application, designed to help users with dietary restrictions and preferences analyze restaurant menus for safe dining experiences. Built with Django REST Framework featuring menu scanning, dietary analysis, admin dashboard, and user management.
+AI-powered dietary assistant backend built with Django REST Framework.
 
-## 📋 Environment Variables
+MenuSideKick helps users identify safe food choices by analyzing restaurant menus, extracting menu items through OCR, and matching them against dietary preferences, allergies, and nutritional restrictions.
 
-Required environment variables for deployment:
+---
 
+## 🚀 Features
 
-## Features
+### Authentication & User Management
+- JWT Authentication
+- User Registration & Login
+- Social Authentication
+- Role-Based Access Control (RBAC)
 
-- 🔐 **User Authentication**
-  - JWT-based login/register using **Simple-JWT**
-  - Social media authentication support (Google, Facebook, Apple)
-  - Custom user profiles with dietary preferences and allergies
-  
-- 🍽️ **Menu Scanning & Analysis**
-  - OCR-powered menu text extraction from images
-  - Dietary preference matching and allergen detection
-  - Menu item modification suggestions
-  - Multi-language menu translation support
-  
-- 📊 **Admin Dashboard**
-  - Restaurant menu management system
-  - User analytics and dietary trend insights
-  - Menu translation management
-  - System performance monitoring
-  
-- 🥗 **Dietary Management**
-  - Comprehensive dietary restriction tracking
-  - Allergen database management
-  - Custom meal creation and modification
-  - Nutritional information integration
+### Menu Processing
+- OCR-based menu extraction
+- Image-to-text conversion
+- Menu item parsing and categorization
 
-## Tech Stack
+### Dietary Intelligence
+- Allergen detection
+- Dietary restriction matching
+- Personalized food recommendations
+- Ingredient risk analysis
 
-- Django, Django REST Framework
-- SimpleJWT for JWT authentication
-- drf_yasg for Swagger API Documentation
-- OCR integration for menu scanning
-- Multi-language translation services
-- Docker containerization
-- AWS deployment with CI/CD pipeline
+### API Infrastructure
+- RESTful API architecture
+- OpenAPI / Swagger documentation
+- Rate limiting
+- CORS protection
+- Production-ready error handling
 
-## 📄 API Documentation (Swagger)
+### Deployment & Scalability
+- Dockerized environment
+- Development & Production configurations
+- PostgreSQL support
+- AWS deployment ready
+- CI/CD friendly structure
 
-Access the interactive API documentation:
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- Django
+- Django REST Framework
+- Python
+
+### Authentication
+- JWT Authentication
+- OAuth / Social Login
+
+### Database
+- PostgreSQL
+
+### AI & OCR
+- OCR Processing
+- NLP-based dietary analysis
+
+### Infrastructure
+- Docker
+- Docker Compose
+- AWS
+
+---
+
+## 📂 Project Structure
+
+```text
+MenuSideKick/
+│
+├── apps/                  # Application modules
+├── core/                  # Core settings and configurations
+├── .github/               # GitHub workflows
+│
+├── Dockerfile
+├── docker-compose.dev.yml
+├── docker-compose.prod.yml
+├── manage.py
+├── pyproject.toml
+├── entrypoint.sh
+│
+└── README.md
+```
+
+---
+
+## ⚙️ Installation
+
+### Clone Repository
 
 ```bash
-http://localhost:8000/api/docs/   # Swagger UI
-http://localhost:8000/api/redoc/  # ReDoc UI 
+git clone https://github.com/yourusername/MenuSideKick.git
+cd MenuSideKick
 ```
 
-## 🪪 Authorization
+### Create Environment Variables
 
-Click "Authorize" in Swagger UI and paste your JWT token:
+Create:
 
-```
-Bearer <your_access_token>
-```
-
-## 🗄️ Database Models
-
-### Core Models
-- **User**: Extended with dietary preferences, allergies, and profile settings
-- **Menu**: Restaurant menu information with OCR text data
-- **Scan**: Menu scan history and analysis results
-- **DietaryRestriction**: Allergen and dietary preference definitions
-- **AdminUser**: Dashboard access and restaurant management
-
-## 📁 Project Structure
-
-The project follows a modular and scalable architecture:
-```
-backend/
-├── core/                    # Project-level configuration
-│   ├── settings.py          # Django settings
-│   ├── urls.py              # Main URL routing
-│   └── wsgi.py              # WSGI configuration
-├── apps/                    # Modular app structure
-│   ├── admin_dashboard/     # Admin panel and management APIs
-│   ├── diets/              # Dietary restrictions and preferences APIs
-│   ├── scans/              # Menu scanning and analysis APIs
-│   └── users/              # User authentication and profile APIs
-├── docker/                  # Docker configuration files
-├── deployment/              # CI/CD and deployment scripts
-└── manage.py
-```
-
-App Responsibilities:
-- `core/`: Project-level settings, URL routing, and configuration
-- `apps/admin_dashboard/`: Restaurant menu management and analytics
-- `apps/diets/`: Dietary restrictions, allergens, and preferences management
-- `apps/scans/`: Menu scanning, OCR processing, and analysis logic
-- `apps/users/`: User authentication, profiles, and social login integration
-
-## 🔐 API Endpoints & Usage
-
-### 👤 User Authentication
-
-#### Register
-`POST /api/auth/register/`
-```json
-{
-  "username": "johndoe",
-  "email": "john@example.com", 
-  "password": "securepass123",
-  "dietary_preferences": ["vegetarian", "gluten-free"],
-  "allergies": ["nuts", "shellfish"]
-}
-```
-
-#### Login (JWT)
-`POST /api/auth/login/`
-```json
-{
-  "username": "johndoe",
-  "password": "securepass123"
-}
-```
-
-#### Social Login
-`POST /api/auth/social-login/`
-```json
-{
-  "provider": "google",
-  "access_token": "social_provider_token"
-}
-```
-
-### 📱 Menu Scanning
-
-#### Scan Menu
-`POST /api/scans/menu/`
-```json
-{
-  "scan_id": "UUID",
-  "source_type": "photo|pdf|url|upload",
-  "file_url": "signed-url-or-null",
-  "detected_language": "fr",
-  "preference": { …PreferencePayload… }
-}
-```
-
-#### Get Scan Results
-`GET /api/scans/{scan_id}/results/`
-
-#### Get Scan History
-`GET /api/scans/history/`
-
-### 🥗 Dietary Management
-
-#### Get Dietary Options
-`GET /api/diets/restrictions/`
-
-#### Update User Preferences --> What you send to the AI/OCR team
-`PUT /api/diets/preferences/`
-```json
-{
-  "profile_id": "UUID",
-  "diet_type": "vegan|vegetarian|halal|kosher|keto|none|…",
-  "strictness": 0,
-  "allergens": ["peanut","gluten","shellfish", "..."],
-  "medical_conditions": ["celiac","diabetes","..."],
-  "banned_ingredients": ["gelatin","anchovy","..."],
-  "preferred_language": "en",
-  "region": "BD"
-}
-```
-
-
-### 🏢 Admin Dashboard
-
-#### Restaurant Management
 ```bash
-GET /api/admin/restaurants/        # List restaurants
-POST /api/admin/restaurants/       # Create restaurant (admin only)
-PUT /api/admin/restaurants/{id}/   # Update restaurant (admin only)
+.env
 ```
 
-#### Analytics
-`GET /api/admin/analytics/dashboard/`
+Example:
 
-#### User Management
-`GET /api/admin/users/statistics/`
+```env
+DEBUG=True
 
-## 🧮 Business Logic
+SECRET_KEY=your-secret-key
 
-### Menu Scanning System
-1. **OCR Processing**: Extract text from menu images using advanced OCR
-2. **Language Detection**: Auto-detect menu language for translation
-3. **Item Parsing**: Identify individual menu items and ingredients
-4. **Dietary Analysis**: Match items against user preferences and restrictions
+DB_NAME=menusidekick
+DB_USER=postgres
+DB_PASSWORD=password
+DB_HOST=db
+DB_PORT=5432
 
-### Dietary Analysis Engine
-- **Allergen Detection**: Scan ingredients for potential allergens
-- **Preference Matching**: Compare items against dietary preferences
-- **Modification Suggestions**: Recommend menu item modifications
-- **Safety Scoring**: Rate items based on user's dietary profile
-
-### Admin Dashboard Features
-- **Restaurant Analytics**: Track popular items and dietary trends
-- **User Insights**: Analyze user behavior and preferences
-- **Menu Management**: Upload and manage restaurant menus
-- **Translation Oversight**: Review and approve menu translations
-
-## 🚀 Setup & Installation
-
-### ✅ Clone the repository
-```bash
-git clone <repository-url>
-cd menu-sidekick-backend
+ALLOWED_HOSTS=*
 ```
 
-### ✅ Navigate to backend directory
-```bash
-cd backend
-```
+---
 
-### ✅ Install dependencies using uv
-```bash
-uv sync
-```
+## 🐳 Run with Docker
 
-### ✅ Activate Virtual Environment
-```bash
-source .venv/bin/activate  
-```
+Development:
 
-### ✅ Environment Setup
-```bash
-cp .env.example .env
-# Configure your environment variables
-```
-
-### ✅ Apply migrations
-```bash
-python manage.py migrate
-```
-
-### ✅ Create superuser for admin operations
-```bash
-python manage.py createsuperuser
-```
-
-### ✅ Run the development server
-```bash
-python manage.py runserver
-```
-
-### ✅ Access API Documentation
-```bash
-http://localhost:8000/api/docs/
-```
-
-## 🐳 Docker Deployment
-
-### Development
 ```bash
 docker-compose -f docker-compose.dev.yml up --build
 ```
 
-### Production
+Production:
+
 ```bash
-docker-compose -f docker-compose.prod.yml up -d --build
+docker-compose -f docker-compose.prod.yml up --build -d
 ```
 
-## ☁️ AWS Deployment
+---
 
-### Prerequisites
-- AWS CLI configured
-- Docker installed
-- CI/CD pipeline setup
+## 🔄 Apply Migrations
 
-### Deployment Steps
 ```bash
-# Build and push to ECR
-./deployment/deploy.sh production
-
-# Deploy to ECS
-./deployment/ecs-deploy.sh
+docker exec -it backend python manage.py migrate
 ```
 
-## 🔄 CI/CD Pipeline
+Create Superuser:
 
-The project includes automated CI/CD pipeline with:
-- Automated testing on pull requests
-- Docker image building and pushing to ECR
-- Automated deployment to AWS ECS
-- Environment-specific configurations
+```bash
+docker exec -it backend python manage.py createsuperuser
+```
 
-## 🔄 Testing Workflow
+---
 
-### For Mobile App Integration:
-1. **Register User** ➝ `POST /api/auth/register/`
-2. **Login** ➝ `POST /api/auth/login/` (get JWT token)
-3. **Set Dietary Preferences** ➝ `PUT /api/diets/preferences/`
-4. **Scan Menu** ➝ `POST /api/scans/menu/`
-5. **Get Analysis Results** ➝ `GET /api/scans/{scan_id}/results/`
-6. **View Recommendations** ➝ Based on dietary analysis
+## ▶️ Run Locally
 
-### For Admin Operations:
-1. **Create Superuser** ➝ `python manage.py createsuperuser` (in terminal)
-2. **Login with Admin** ➝ `POST /api/auth/login/` (use superuser credentials)
-3. **Authorize** ➝ Use admin JWT token in Swagger UI
-4. **Admin Operations** ➝ Manage restaurants, view analytics, user management
+Install dependencies:
 
-## 🔧 Assumptions & Limitations
+```bash
+pip install -r requirements.txt
+```
 
-### Current Implementation
-- OCR processing optimized for English menus (multi-language support in progress)
-- Dietary analysis based on keyword matching (ML enhancement planned)
-- Admin dashboard provides basic analytics (advanced reporting in development)
+Run migrations:
 
-### Known Limitations
-- OCR accuracy depends on image quality and lighting
-- Translation service requires internet connectivity
-- Real-time analysis may have latency for complex menus
-- Social login requires proper OAuth configuration
+```bash
+python manage.py migrate
+```
 
+Start server:
 
+```bash
+python manage.py runserver
+```
 
-## ℹ️ Notes
+---
 
-- This project uses **uv** for modern Python package management
-- Authentication supports both traditional JWT and social login
-- API documentation generated with **drf_yasg**
-- Docker containerization for consistent deployment environments
-- AWS deployment with ECS and RDS for scalability
-- CI/CD pipeline ensures automated testing and deployment
-- Project follows Django best practices with modular and scalable app design#   M e n u S i d e K i c k 
- 
- 
-# MenuSideKick
+## 📖 API Documentation
+
+Swagger UI:
+
+```text
+/api/docs/
+```
+
+OpenAPI Schema:
+
+```text
+/api/schema/
+```
+
+---
+
+## 🔐 Authentication
+
+MenuSideKick uses JWT Authentication.
+
+### Obtain Token
+
+```http
+POST /api/auth/login/
+```
+
+Request:
+
+```json
+{
+    "email": "user@example.com",
+    "password": "password"
+}
+```
+
+Response:
+
+```json
+{
+    "access": "jwt_access_token",
+    "refresh": "jwt_refresh_token"
+}
+```
+
+---
+
+## 📸 OCR Workflow
+
+1. User uploads menu image.
+2. OCR extracts text.
+3. Menu items are identified.
+4. Ingredients are analyzed.
+5. Dietary restrictions are matched.
+6. Safe food recommendations are returned.
+
+---
+
+## 📊 Example Use Cases
+
+- Gluten-free dining
+- Vegan food recommendations
+- Nut allergy detection
+- Dairy-free meal selection
+- Personalized dietary guidance
+
+---
+
+## 🔒 Security Features
+
+- JWT Authentication
+- RBAC Permissions
+- Rate Limiting
+- CORS Protection
+- Input Validation
+- Secure Environment Configuration
+
+---
+
+## 🚀 Future Enhancements
+
+- AI-powered meal scoring
+- Restaurant recommendation engine
+- Nutritional analytics dashboard
+- Multi-language OCR support
+- LLM-powered menu explanation
+
+---
+
+## 👨‍💻 Author
+
+### Prosenjit Saha Apu
+
+AI Engineer & Backend Developer
+
+- LinkedIn: https://linkedin.com/in/your-profile
+- GitHub: https://github.com/apusaha0011
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
